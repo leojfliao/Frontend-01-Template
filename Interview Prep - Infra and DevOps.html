@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Preparation - Sr.AD Infrastructure & DevOps</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, hsl(229, 7%, 46%) 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        .card h2 {
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card h2 .icon {
+            font-size: 1.3em;
+        }
+        .editable {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            min-height: 100px;
+            background: #fafafa;
+            transition: all 0.3s ease;
+        }
+        .editable:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        .editable:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+        }
+        .highlight {
+            background: linear-gradient(120deg, #ffeaa7 0%, #ffeaa7 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 40%;
+            background-position: 0 88%;
+            padding: 0 4px;
+        }
+        .tag {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin: 3px;
+        }
+        .tag.green { background: #00b894; }
+        .tag.orange { background: #e17055; }
+        .tag.blue { background: #0984e3; }
+        .timer {
+            text-align: center;
+            font-size: 2em;
+            color: #667eea;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        .section-note {
+            background: #e8f4f8;
+            border-left: 4px solid #667eea;
+            padding: 12px 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95em;
+            color: #555;
+        }
+        .question-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
+        }
+        .question-item .q {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .question-item .hint {
+            color: #666;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+        .question-item .answer-area {
+            margin-top: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            border: 1px dashed #ccc;
+            min-height: 60px;
+        }
+        .btn {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+        .btn-group {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-box .number {
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .stat-box .label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        .jd-match {
+            background: #f0f8ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        .jd-match h4 {
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        .jd-match ul {
+            margin-left: 20px;
+            color: #555;
+        }
+        .jd-match li {
+            margin: 5px 0;
+        }
+        @media print {
+            body {
+                background: white;
+                padding: 10px;
+            }
+            .card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Interview Preparation</h1>
+            <p>Senior Associate Director - Infrastructure & DevOps | Hang Seng Bank</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">Candidate: Leo J F Liao | Date: <span id="currentDate"></span></p>
+        </div>
+
+        <!-- JD Match Overview -->
+        <div class="card">
+            <h2><span class="icon">🎯</span> JD Match Overview</h2>
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="number">85%</div>
+                    <div class="label">Overall Match</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number">14+</div>
+                    <div class="label">Years Experience</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number">35</div>
+                    <div class="label">Team Size Led</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number">$800K+</div>
+                    <div class="label">Annual Savings</div>
+                </div>
+            </div>
+            
+            <div class="jd-match">
+                <h4>✅ Strong Matches</h4>
+                <ul>
+                    <li>10+ years enterprise infrastructure management (14 years actual)</li>
+                    <li>5+ years leadership role (Led 2→35 person team growth)</li>
+                    <li>DevOps expertise: GitHub, Ansible, Terraform, CI/CD pipelines</li>
+                    <li>Middleware: Kafka, Redis experience</li>
+                    <li>Cloud platforms: GCP, multi-cloud governance</li>
+                    <li>High availability & disaster recovery best practices</li>
+                    <li>Banking/financial services sector experience (HSBC)</li>
+                    <li>100% IaC compliance, DevSecOps practices</li>
+                </ul>
+            </div>
+            
+            <div class="jd-match">
+                <h4>⚠️ Areas to Emphasize</h4>
+                <ul>
+                    <li>PostgreSQL, MongoDB, DB2 experience (mention explicitly)</li>
+                    <li>AIX operating system exposure</li>
+                    <li>Cross-regional team leadership (HK + Mainland China)</li>
+                    <li>Cantonese language skills (if applicable)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Self Introduction -->
+        <div class="card">
+            <h2><span class="icon">🎤</span> Self-Introduction (3 Minutes)</h2>
+            <div class="section-note">
+                💡 <strong>Tips:</strong> Speak at a moderate pace. This script is approximately 450-500 words, which takes about 3 minutes. 
+                Highlight the <span class="highlight">bold keywords</span> to emphasize your alignment with the JD.
+            </div>
+            
+            <div class="timer" id="timer">03:00</div>
+            <div class="btn-group">
+                <button class="btn" onclick="startTimer()">⏱️ Start Timer</button>
+                <button class="btn" onclick="resetTimer()">🔄 Reset</button>
+            </div>
+
+            <div class="editable" contenteditable="true">
+                <p><strong>Good morning/afternoon. Thank you for giving me this opportunity to interview for the Senior Associate Director - Infrastructure and DevOps position.</strong></p>
+                
+                <p>My name is Leo Liao, and I am currently an Associate Director and Cloud Engineering Lead at HSBC Technology China. Over the past <span class="highlight">14 years</span>, I have built my career in technology engineering, with the last several years focused on <span class="highlight">cloud infrastructure, platform engineering, and SRE leadership</span> within the banking sector.</p>
+                
+                <p>What I bring to this role is a combination of <span class="highlight">deep technical expertise and proven leadership in scaling engineering teams</span>. At HSBC, I transformed a 2-person contractor team into a <span class="highlight">35-person autonomous cloud and data platform engineering organization</span>. This team owns end-to-end delivery across infrastructure, security, automation, observability, and cost governance on GCP and our internal Kubernetes platform.</p>
+                
+                <p>From a technical standpoint, I have hands-on experience across the full stack of technologies mentioned in this role. I have led a <span class="highlight">$5 million-plus decisioning platform migration</span> from on-premise to hybrid cloud architecture across four global markets. I have implemented <span class="highlight">enterprise-grade CI/CD pipelines, Infrastructure-as-Code practices using Terraform and Ansible</span>, and established DevSecOps frameworks ensuring security-by-design. We achieved <span class="highlight">100% IaC compliance</span> and fully remediated open-source vulnerabilities enterprise-wide.</p>
+                
+                <p>On the operational side, I am proud of the reliability improvements we delivered. Through proactive SRE practices, we achieved a <span class="highlight">70% incident reduction</span>, enabled zero-downtime upgrades for mission-critical systems including Elasticsearch, Kafka, and Cassandra clusters, and delivered <span class="highlight">$800,000-plus in annual savings</span> through cost governance frameworks, despite 30% traffic growth.</p>
+                
+                <p>I also have strong experience in the financial services domain. I spearheaded the <span class="highlight">zero-to-one development of OTC Client Clearing capability</span> in Guangzhou, built the full IT service management framework, and turned that business from loss-making into a highly profitable unit while maintaining 100% SLA compliance under strict regulatory scrutiny.</p>
+                
+                <p>What excites me about this role at Hang Seng is the opportunity to <span class="highlight">lead infrastructure and DevOps transformation across Hong Kong and Mainland China</span>. I understand the unique challenges of operating in this cross-regional environment, and I am confident that my experience in team building, automation, and operational excellence aligns well with your vision.</p>
+                
+                <p>Thank you, and I look forward to discussing how I can contribute to your team.</p>
+            </div>
+            
+            <div class="section-note" style="margin-top: 15px;">
+                <strong>Key phrases to memorize:</strong>
+                <span class="tag green">2→35 person team</span>
+                <span class="tag green">$5M+ migration</span>
+                <span class="tag green">70% incident reduction</span>
+                <span class="tag green">$800K+ savings</span>
+                <span class="tag green">100% IaC compliance</span>
+                <span class="tag green">Zero-downtime upgrades</span>
+                <span class="tag blue">OTC Client Clearing</span>
+                <span class="tag blue">Cross-regional leadership</span>
+            </div>
+        </div>
+
+        <!-- Common Interview Questions -->
+        <div class="card">
+            <h2><span class="icon">❓</span> Common Interview Questions</h2>
+            
+            <div class="question-item">
+                <div class="q">1. Tell me about a time you led a major infrastructure transformation.</div>
+                <div class="hint">💡 Hint: Use the $5M+ GCP migration story. Focus on challenges, stakeholder management, and measurable outcomes.</div>
+                <div class="answer-area" contenteditable="true">Type your answer here...</div>
+            </div>
+            
+            <div class="question-item">
+                <div class="q">2. How do you approach building and scaling a DevOps team across regions?</div>
+                <div class="hint">💡 Hint: Mention your 2→35 person team growth. Discuss culture, automation-first mindset, and cross-regional collaboration.</div>
+                <div class="answer-area" contenteditable="true">Type your answer here...</div>
+            </div>
+            
+            <div class="question-item">
+                <div class="q">3. Describe your experience with high availability and disaster recovery.</div>
+                <div class="hint">💡 Hint: Talk about zero-downtime upgrades, 70% incident reduction, SLA compliance, and specific technologies (Kafka, Cassandra, Elasticsearch).</div>
+                <div class="answer-area" contenteditable="true"><p><strong>In my 14-year career, I've designed and operated high-availability infrastructure across multiple technology stacks, with a strong focus on banking-grade reliability.</strong></p>
+
+<p><strong>GKE (Google Kubernetes Engine) & Container Platforms:</strong></p>
+<ul>
+<li>Architected and managed multi-cluster GKE deployments across regions, leveraging <span class="highlight">node auto-repair, auto-scaling, and regional clusters</span> for automatic failover.</li>
+<li>Implemented <span class="highlight">Pod Disruption Budgets (PDBs)</span> and anti-affinity rules to ensure critical services remain available during node maintenance or upgrades.</li>
+<li>Enabled <span class="highlight">zero-downtime rolling updates</span> for microservices using blue-green and canary deployment strategies, validated through rigorous chaos engineering practices.</li>
+</ul>
+
+<p><strong>Cloud SQL & PostgreSQL:</strong></p>
+<ul>
+<li>Managed <span class="highlight">Cloud SQL HA instances with regional failover</span>, ensuring RPO near-zero and RTO under 60 seconds for critical banking data.</li>
+<li>Implemented cross-region read replicas for workload offloading and disaster recovery, with automated backup verification and point-in-time recovery (PITR) testing.</li>
+<li>Established monitoring on replication lag and connection pooling (PgBouncer) to prevent cascading failures during traffic spikes.</li>
+</ul>
+
+<p><strong>Oracle (On-Premise & Hybrid):</strong></p>
+<ul>
+<li>Supported <span class="highlight">Oracle RAC and Data Guard configurations</span> for mission-critical OTC clearing systems, ensuring 100% SLA compliance under strict regulatory scrutiny.</li>
+<li>Participated in DR drills involving switchover and failover scenarios, documenting runbooks and automating health checks to reduce MTTR.</li>
+</ul>
+
+<p><strong>Cassandra Multi-DC / Multi-Center:</strong></p>
+<ul>
+<li>Operated <span class="highlight">Cassandra clusters spanning multiple data centers</span> with NetworkTopologyStrategy, tuning consistency levels (LOCAL_QUORUM, QUORUM) based on use-case criticality.</li>
+<li>Executed <span class="highlight">zero-downtime Cassandra upgrades and expansions</span> by leveraging streaming and repair orchestration, ensuring no data loss or service interruption.</li>
+<li>Implemented incremental backups and snapshot strategies for fast cluster restoration in DR scenarios.</li>
+</ul>
+
+<p><strong>Kafka & Elasticsearch:</strong></p>
+<ul>
+<li>Maintained <span class="highlight">Kafka clusters with mirror-maker and multi-region replication</span> for event-driven architectures, ensuring data durability and consumer offset continuity.</li>
+<li>Performed <span class="highlight">Elasticsearch rolling restarts and version upgrades</span> with shard allocation awareness, maintaining search availability throughout the process.</li>
+</ul>
+
+<p><strong>Operational Excellence:</strong></p>
+<ul>
+<li>Achieved <span class="highlight">70%+ incident reduction</span> through proactive SRE practices, including SLO/SLI definitions, error budgets, and blameless post-mortems.</li>
+<li>Designed global observability strategy using <span class="highlight">ITRS/Geneos, Prometheus, and Grafana</span> for real-time alerting and event correlation.</li>
+<li>Delivered <span class="highlight">$800K+ annual savings</span> through cost governance while maintaining 99.99% availability for core banking services.</li>
+</ul></div>
+            </div>
+            
+            <div class="question-item">
+                <div class="q">4. How do you ensure security and compliance in infrastructure management?</div>
+                <div class="hint">💡 Hint: Discuss 100% IaC compliance, DevSecOps practices, open-source vulnerability remediation, and regulatory adherence in banking.</div>
+                <div class="answer-area" contenteditable="true"><p><strong>Security and compliance are foundational to everything we build in banking infrastructure. My approach is "security-by-design" rather than "security-as-an-afterthought."</strong></p>
+
+<p><strong>Infrastructure-as-Code (IaC) Compliance:</strong></p>
+<ul>
+<li>Achieved <span class="highlight">100% IaC compliance</span> across all platform services using Terraform and Ansible. Every infrastructure change goes through version-controlled code review, ensuring auditability and preventing configuration drift.</li>
+<li>Implemented policy-as-code using Open Policy Agent (OPA) to enforce security baselines automatically during CI/CD pipelines.</li>
+</ul>
+
+<p><strong>DevSecOps Practices:</strong></p>
+<ul>
+<li>Integrated security scanning into CI/CD pipelines: <span class="highlight">SAST (Static Application Security Testing), DAST (Dynamic Application Security Testing), container image scanning (Trivy, Clair), and dependency vulnerability checks (Snyk)</span>.</li>
+<li>Shifted security left by embedding security requirements into the design phase, conducting threat modeling for critical systems.</li>
+</ul>
+
+<p><strong>Open Source Vulnerability Management:</strong></p>
+<ul>
+<li>Led <span class="highlight">enterprise-wide open-source vulnerability remediation program</span>. Established automated scanning and patching workflows, reducing critical vulnerability exposure from weeks to days.</li>
+<li>Maintained approved software catalog and SBOM (Software Bill of Materials) for compliance tracking.</li>
+</ul>
+
+<p><strong>Access Control & Secrets Management:</strong></p>
+<ul>
+<li>Implemented <span class="highlight">RBAC (Role-Based Access Control)</span> across Kubernetes (IKP/GKE) and cloud platforms with principle of least privilege.</li>
+<li>Managed secrets using enterprise vault solutions with automatic rotation, eliminating hardcoded credentials.</li>
+<li>Utilized <span class="highlight">TPAM (Privileged Access Management)</span> for controlled administrative access with session recording and just-in-time elevation.</li>
+</ul>
+
+<p><strong>Regulatory Compliance:</strong></p>
+<ul>
+<li>Ensured <span class="highlight">100% SLA compliance and regulatory adherence</span> for OTC clearing systems under strict banking regulations (MAS, HKMA).</li>
+<li>Implemented comprehensive audit logging and log retention policies using ELK stack for forensic analysis.</li>
+<li>Conducted regular compliance assessments and penetration testing, with remediation tracked through SSP (Secure Service Platform).</li>
+</ul>
+
+<p><strong>Network Security:</strong></p>
+<ul>
+<li>Designed network segmentation with VPCs, subnets, and firewall rules. Implemented service mesh (Istio) for mTLS encryption between microservices.</li>
+<li>Deployed WAF (Web Application Firewall) and DDoS protection for internet-facing applications.</li>
+</ul></div>
+            </div>
+            
+            <div class="question-item">
+                <div class="q">5. What is your approach to cost optimization in cloud infrastructure?</div>
+                <div class="hint">💡 Hint: Share the $800K+ savings story. Mention cost governance frameworks, multi-cloud optimization, and balancing cost with performance.</div>
+                <div class="answer-area" contenteditable="true">Type your answer here...</div>
+            </div>
+            
+            <div class="question-item">
+                <div class="q">6. How do you handle incident response and post-mortem processes?</div>
+                <div class="hint">💡 Hint: Discuss MTTD/MTTR reduction, observability strategy (ITRS/Geneos), blameless post-mortems, and continuous improvement.</div>
+                <div class="answer-area" contenteditable="true"><p><strong>Incident response is a critical discipline that I've refined over years of operating mission-critical banking systems. My approach combines structured processes, robust observability, and a culture of continuous learning.</strong></p>
+
+<p><strong>Observability & Detection:</strong></p>
+<ul>
+<li>Built a comprehensive observability stack using <span class="highlight">ITRS/Geneos for real-time monitoring, Prometheus for metrics, Grafana for visualization, and ELK for centralized logging</span>. This multi-layered approach ensures rapid detection of anomalies.</li>
+<li>Defined clear <span class="highlight">SLOs/SLIs and error budgets</span> for critical services, with automated alerts tiered by severity (P1-P4) to prevent alert fatigue.</li>
+<li>Implemented distributed tracing for microservices to quickly pinpoint failure points across complex call chains.</li>
+</ul>
+
+<p><strong>Incident Response Process:</strong></p>
+<ul>
+<li>Established a <span class="highlight">clear escalation matrix and on-call rotation</span> using tools like PagerDuty, ensuring the right expertise is engaged within minutes.</li>
+<li>Created <span class="highlight">standardized runbooks</span> in our Wiki for common incident types, enabling faster resolution and reducing dependency on tribal knowledge.</li>
+<li>Utilized <span class="highlight">war rooms and dedicated communication channels</span> (Slack/Teams) for major incidents, with a designated incident commander to coordinate response efforts.</li>
+</ul>
+
+<p><strong>MTTD/MTTR Reduction:</strong></p>
+<ul>
+<li>Achieved <span class="highlight">significant reduction in MTTD (Mean Time To Detect) and MTTR (Mean Time To Repair)</span> by correlating events across monitoring systems and automating diagnostic scripts.</li>
+<li>For the OTC clearing platform, this meant detecting and resolving issues before they impacted trading operations, maintaining 100% SLA compliance.</li>
+</ul>
+
+<p><strong>Blameless Post-Mortems:</strong></p>
+<ul>
+<li>Conducted <span class="highlight">blameless post-mortems within 24-48 hours</span> of major incidents, focusing on systemic improvements rather than individual fault.</li>
+<li>Used structured templates to capture timeline, root cause analysis (5 Whys), impact assessment, and actionable remediation items.</li>
+<li>Ensured all action items were tracked in Jira with owners and deadlines, reviewed in subsequent sprint retrospectives.</li>
+</ul>
+
+<p><strong>Continuous Improvement:</strong></p>
+<ul>
+<li>Performed <span class="highlight">chaos engineering experiments</span> (e.g., simulating node failures, network partitions) to validate resilience and identify weaknesses proactively.</li>
+<li>Regularly reviewed incident trends to identify patterns and prioritize engineering work that prevents recurring issues.</li>
+</ul></div>
+            </div>
+            
+            <div class="question-item">
+                <div class="q">7. What experience do you have with the specific technologies mentioned in this role?</div>
+                <div class="hint">💡 Hint: Address each technology area - OS (Linux/Unix), DB (PostgreSQL, MongoDB, Oracle), Middleware (Kafka, Redis, MQ), DevOps (Ansible, Terraform, GitHub), Cloud (GCP, AWS, Azure).</div>
+                <div class="answer-area" contenteditable="true"><p><strong>I have hands-on experience across the full technology stack mentioned in this role, gained through 14 years of infrastructure and platform engineering in the banking sector.</strong></p>
+
+<p><strong>Operating Systems:</strong></p>
+<ul>
+<li><span class="highlight">Linux/Unix System Administration</span>: Deep expertise in RHEL, CentOS, and Ubuntu administration. HSBC certified Unix SA with experience in kernel tuning, security hardening (CIS benchmarks), and performance optimization.</li>
+<li><span class="highlight">AIX</span>: Supported AIX-based systems in legacy banking infrastructure, including LPAR management, HACMP clustering, and PowerVM virtualization.</li>
+</ul>
+
+<p><strong>Databases:</strong></p>
+<ul>
+<li><span class="highlight">Oracle</span>: Managed Oracle RAC and Data Guard configurations for mission-critical OTC clearing systems. Experienced in RMAN backup/recovery, performance tuning, and patch management.</li>
+<li><span class="highlight">PostgreSQL</span>: Deployed and managed Cloud SQL HA instances and on-premise PostgreSQL clusters. Implemented logical replication, connection pooling (PgBouncer), and automated backup strategies.</li>
+<li><span class="highlight">MongoDB</span>: Operated MongoDB clusters for document-based workloads, including replica set configuration, sharding strategies, and backup automation.</li>
+<li><span class="highlight">Cassandra</span>: Managed multi-DC Cassandra clusters with NetworkTopologyStrategy, handling zero-downtime upgrades and expansions.</li>
+</ul>
+
+<p><strong>Middleware & Messaging:</strong></p>
+<ul>
+<li><span class="highlight">Kafka</span>: Architected and maintained Kafka clusters for event-driven microservices. Implemented MirrorMaker for cross-region replication, topic partitioning strategies, and consumer group management.</li>
+<li><span class="highlight">Redis</span>: Deployed Redis clusters for caching and session management, including Sentinel and Cluster mode configurations.</li>
+<li><span class="highlight">MQ (IBM MQ / RabbitMQ)</span>: Managed message queuing infrastructure for reliable asynchronous communication between distributed systems.</li>
+</ul>
+
+<p><strong>DevOps & Automation:</strong></p>
+<ul>
+<li><span class="highlight">Ansible</span>: Built extensive playbook libraries for configuration management, patch automation, and application deployment. Achieved "automate everything" transformation from manual admin estate.</li>
+<li><span class="highlight">Terraform</span>: Implemented Infrastructure-as-Code for GCP and hybrid cloud resources. Maintained modular Terraform configurations with state management and CI/CD integration.</li>
+<li><span class="highlight">GitHub / GitHub Actions</span>: Migrated CI/CD pipelines to GitHub Actions, implementing workflow automation for build, test, security scanning, and deployment.</li>
+<li><span class="highlight">Jenkins</span>: Extensive experience with Jenkins pipeline-as-code (Jenkinsfile), shared libraries, and plugin management.</li>
+<li><span class="highlight">Helm</span>: Packaged and deployed microservices using Helm charts, managing releases across multiple environments.</li>
+</ul>
+
+<p><strong>Cloud Platforms:</strong></p>
+<ul>
+<li><span class="highlight">GCP (Google Cloud Platform)</span>: Primary cloud platform expertise. Managed GKE clusters, Cloud SQL, Cloud Storage, IAM policies, and networking. Led $5M+ migration from on-premise to hybrid GCP architecture.</li>
+<li><span class="highlight">IKP (Internal Kubernetes Platform)</span>: Operated and optimized internal enterprise Kubernetes platform, handling cluster provisioning, RBAC, network policies, and resource quotas.</li>
+</ul>
+
+<p><strong>Observability & Monitoring:</strong></p>
+<ul>
+<li><span class="highlight">ITRS/Geneos</span>: Designed global observability strategy for OTC clearing systems, implementing monitoring, alerting, and event correlation.</li>
+<li><span class="highlight">Prometheus & Grafana</span>: Deployed Prometheus for metrics collection and Grafana for visualization, creating custom dashboards and alert rules.</li>
+<li><span class="highlight">ELK Stack</span>: Centralized logging infrastructure with Elasticsearch, Logstash, and Kibana for log aggregation and analysis.</li>
+</ul>
+
+<p><strong>Other Platforms:</strong></p>
+<ul>
+<li><span class="highlight">Pega</span>: Supported Pega-based business process management applications.</li>
+<li><span class="highlight">SSP / TPAM</span>: Worked with secure service platforms and privileged access management tools.</li>
+</ul></div>
+            </div>
+            
+            <div class="question-item">
+                <div class="q">8. Why do you want to leave HSBC and join Hang Seng?</div>
+                <div class="hint">💡 Hint: Focus on growth opportunities, cross-regional scope, new challenges, and alignment with Hang Seng's vision. Avoid negative comments about current employer.</div>
+                <div class="answer-area" contenteditable="true">Type your answer here...</div>
+            </div>
+            
+            <div class="question-item">
+                <div class="q">9. How do you stay current with emerging technologies?</div>
+                <div class="hint">💡 Hint: Mention EEP programme, uGrow leadership, certifications, hands-on experimentation, and community involvement.</div>
+                <div class="answer-area" contenteditable="true">Type your answer here...</div>
+            </div>
+            
+            <div class="question-item">
+                <div class="q">10. What is your leadership style?</div>
+                <div class="hint">💡 Hint: Emphasize servant leadership, empowerment, building autonomous teams, and fostering continuous learning culture.</div>
+                <div class="answer-area" contenteditable="true">Type your answer here...</div>
+            </div>
+        </div>
+
+        <!-- Technical Deep Dive Questions -->
+        <div class="card">
+            <h2><span class="icon">🔧</span> Technical Deep Dive Questions</h2>
+            
+            <div class="question-item">
+                <div class="q">1. Design a CI/CD pipeline for a microservices architecture on Kubernetes.</div>
+                <div class="hint">💡 Hint: Cover GitOps, image scanning, helm charts, canary deployments, rollback strategies.</div>
+                <div class="answer-area" contenteditable="true"><p><strong>I would design a GitOps-based CI/CD pipeline leveraging our existing tool stack: GitHub Actions for CI, ArgoCD for GitOps-driven CD, Helm for packaging, and IKP/GKE as the target Kubernetes platform.</strong></p>
+
+<p><strong>1. Source Control & Branching Strategy:</strong></p>
+<ul>
+<li>Adopt <span class="highlight">GitHub Flow or trunk-based development</span> with protected main branches. Each microservice has its own repository with a standardized structure: <code>/src</code>, <code>/helm</code>, <code>/docker</code>, <code>/.github/workflows</code>.</li>
+<li>Require pull requests with mandatory code review (minimum 2 approvers), status checks (build, test, security scan), and branch protection rules.</li>
+</ul>
+
+<p><strong>2. Continuous Integration (CI) - GitHub Actions:</strong></p>
+<ul>
+<li><span class="highlight">Build Stage</span>: Triggered on every PR and merge to main. Uses GitHub Actions runners to compile code, run unit tests, and generate artifacts.</li>
+<li><span class="highlight">Containerization</span>: Build Docker images with multi-stage builds for minimal attack surface. Tag images with Git commit SHA and semantic version.</li>
+<li><span class="highlight">Security Scanning</span>: Integrate Trivy/Clair for image vulnerability scanning, Snyk for dependency checks, and SonarQube for code quality. Fail the pipeline on critical vulnerabilities.</li>
+<li><span class="highlight">Artifact Registry</span>: Push verified images to Google Artifact Registry (GAR) with immutable tags and signed attestations.</li>
+</ul>
+
+<p><strong>3. Continuous Deployment (CD) - ArgoCD (GitOps):</strong></p>
+<ul>
+<li>Maintain a separate <span class="highlight">GitOps repository (e.g., <code>k8s-manifests</code>)</span> containing Helm charts and environment-specific values files (<code>values-dev.yaml</code>, <code>values-staging.yaml</code>, <code>values-prod.yaml</code>).</li>
+<li>ArgoCD watches this repository and automatically syncs desired state to IKP/GKE clusters. This ensures <span class="highlight">declarative, version-controlled, and auditable deployments</span>.</li>
+<li>Use ArgoCD ApplicationSets for managing multiple microservices across environments with a single configuration.</li>
+</ul>
+
+<p><strong>4. Helm Chart Management:</strong></p>
+<ul>
+<li>Create a <span class="highlight">standardized Helm chart template (umbrella chart)</span> for all microservices, including ConfigMaps, Secrets (external-secrets operator), Services, Ingress, and HorizontalPodAutoscaler (HPA).</li>
+<li>Store common Helm charts in a private Helm repository (e.g., ChartMuseum or OCI registry) for reusability.</li>
+</ul>
+
+<p><strong>5. Progressive Delivery:</strong></p>
+<ul>
+<li>Implement <span class="highlight">canary deployments using Argo Rollouts</span> or Flagger. Route a small percentage of traffic (e.g., 5%) to the new version, monitor key metrics (error rate, latency, custom business metrics) via Prometheus/Grafana.</li>
+<li>Automated promotion: If metrics remain healthy for a defined period, gradually increase traffic to 100%. If anomalies detected, automatic rollback to the previous stable version.</li>
+</ul>
+
+<p><strong>6. Rollback Strategy:</strong></p>
+<ul>
+<li><span class="highlight">Helm rollback</span>: <code>helm rollback &lt;release&gt; &lt;revision&gt;</code> for immediate reversion to a known good state.</li>
+<li><span class="highlight">ArgoCD sync history</span>: One-click rollback to any previous Git commit state.</li>
+<li><span class="highlight">Database migrations</span>: Use Flyway/Liquibase with backward-compatible changes (expand-contract pattern) to ensure schema changes don't block rollbacks.</li>
+</ul>
+
+<p><strong>7. Secrets & Configuration:</strong></p>
+<ul>
+<li>Use <span class="highlight">External Secrets Operator</span> to sync secrets from Google Secret Manager / Vault into Kubernetes, avoiding hardcoded credentials in Git.</li>
+<li>Manage non-secret configuration via ConfigMaps, with environment-specific overrides in GitOps values files.</li>
+</ul>
+
+<p><strong>8. Notifications & Observability:</strong></p>
+<ul>
+<li>Integrate pipeline notifications with Slack/Teams for build success/failure, deployment status, and rollback events.</li>
+<li>Correlate deployment events with application metrics in Grafana to quickly identify the impact of releases.</li>
+</ul></div>
+            </div>
+            
+            <div class="question-item">
+                <div class="q">2. How would you implement a disaster recovery strategy for a multi-region banking application?</div>
+                <div class="hint">💡 Hint: Discuss RPO/RTO objectives, data replication, failover mechanisms, testing procedures.</div>
+                <div class="answer-area" contenteditable="true">Type your answer here...</div>
+            </div>
+            
+            <div class="question-item">
+                <div class="q">3. Explain your approach to monitoring and observability at scale.</div>
+                <div class="hint">💡 Hint: Mention metrics, logs, traces, SLOs/SLIs, alerting thresholds, and tools (Geneos, Prometheus, Grafana).</div>
+                <div class="answer-area" contenteditable="true"><p><strong>My observability strategy is built on three pillars: metrics, logs, and traces, using a layered tool approach that covers business, application, and infrastructure levels.</strong></p>
+
+<p><strong>1. Metrics (The "What"):</strong></p>
+<ul>
+<li><span class="highlight">Prometheus</span>: Deployed as the core metrics collection engine, scraping metrics from applications, Kubernetes (via kube-state-metrics and node-exporter), and infrastructure components.</li>
+<li><span class="highlight">Custom Business Metrics</span>: Instrumented application code to expose business KPIs (e.g., trade processing throughput, settlement latency) alongside technical metrics.</li>
+<li><span class="highlight">SLOs/SLIs</span>: Defined clear Service Level Objectives based on error rates, latency percentiles (p50, p95, p99), and availability. Used error budgets to balance reliability with feature velocity.</li>
+</ul>
+
+<p><strong>2. Logs (The "Why"):</strong></p>
+<ul>
+<li><span class="highlight">ELK Stack (Elasticsearch, Logstash, Kibana)</span>: Centralized logging infrastructure collecting logs from all microservices, Kubernetes pods, and infrastructure components.</li>
+<li>Structured logging (JSON format) with correlation IDs for distributed tracing, enabling rapid log aggregation and filtering during incident investigation.</li>
+<li>Log retention policies aligned with regulatory requirements (e.g., 7 years for banking audit logs).</li>
+</ul>
+
+<p><strong>3. Traces (The "Where"):</strong></p>
+<ul>
+<li>Implemented <span class="highlight">distributed tracing using Jaeger/Tempo</span> to track requests across microservices boundaries, identifying latency bottlenecks and failure propagation paths.</li>
+</ul>
+
+<p><strong>4. Visualization & Alerting:</strong></p>
+<ul>
+<li><span class="highlight">Grafana</span>: Created comprehensive dashboards organized by service, environment, and business function. Dashboards include RED metrics (Rate, Errors, Duration) and USE metrics (Utilization, Saturation, Errors) for infrastructure.</li>
+<li><span class="highlight">ITRS/Geneos</span>: Used for real-time business-critical alerting and event correlation, especially for trading systems where sub-second detection is crucial.</li>
+<li><span class="highlight">Alerting Rules</span>: Tiered alert severity (P1-P4) with clear escalation paths. P1 alerts trigger immediate on-call response; P4 alerts are batched for daily review.</li>
+</ul>
+
+<p><strong>5. Proactive Observability:</strong></p>
+<ul>
+<li><span class="highlight">Synthetic Monitoring</span>: Deployed synthetic probes to simulate user journeys and detect issues before real users are impacted.</li>
+<li><span class="highlight">Anomaly Detection</span>: Used Prometheus recording rules and Grafana alerting to detect unusual patterns (e.g., traffic spikes, error rate deviations) that static thresholds might miss.</li>
+</ul>
+
+<p><strong>6. Cost & Performance Optimization:</strong></p>
+<ul>
+<li>Monitored observability infrastructure costs (Elasticsearch storage, Prometheus retention) and optimized data retention, sampling rates, and index lifecycle policies.</li>
+</ul></div>
+            </div>
+            
+            <div class="question-item">
+                <div class="q">4. How do you manage secrets and credentials in a cloud-native environment?</div>
+                <div class="hint">💡 Hint: Discuss Vault, KMS, sealed secrets, rotation policies, least privilege access.</div>
+                <div class="answer-area" contenteditable="true">Type your answer here...</div>
+            </div>
+            
+            <div class="question-item">
+                <div class="q">5. Describe a challenging production incident you resolved and what you learned.</div>
+                <div class="hint">💡 Hint: Use STAR method (Situation, Task, Action, Result). Focus on systematic troubleshooting and prevention.</div>
+                <div class="answer-area" contenteditable="true">Type your answer here...</div>
+            </div>
+            
+            <div class="question-item">
+                <div class="q">6. What are the key factors and design principles for high availability, especially regarding multi-site data centers, data synchronization, and service failover?</div>
+                <div class="hint">💡 Hint: Cover redundancy, data consistency models, CAP theorem, RTO/RPO, active-active vs active-passive, load balancing, health checks.</div>
+                <div class="answer-area" contenteditable="true"><p><strong>High availability is not just about uptime percentages; it's about designing systems that can withstand failures gracefully. My approach covers infrastructure redundancy, data synchronization, and intelligent service switching.</strong></p>
+
+<p><strong>1. Infrastructure & Network Redundancy:</strong></p>
+<ul>
+<li><span class="highlight">Multi-Site / Multi-Region Deployment</span>: Architect applications across at least two geographically separated data centers (e.g., HK + mainland China) to mitigate regional disasters. Use <span class="highlight">GKE regional clusters</span> or <span class="highlight">IKP multi-zone deployments</span> to ensure node-level redundancy.</li>
+<li><span class="highlight">Network Redundancy</span>: Implement redundant network paths (MPLS, VPN, dedicated interconnects) with automatic BGP failover. Use Global Load Balancers (e.g., GCP Global LB, F5) to route traffic based on health and proximity.</li>
+<li><span class="highlight">Eliminate Single Points of Failure (SPOF)</span>: Every component—from load balancers to database nodes—must have a hot standby or run in a clustered mode.</li>
+</ul>
+
+<p><strong>2. Data Synchronization & Consistency:</strong></p>
+<ul>
+<li><span class="highlight">RPO & RTO Definitions</span>: Before choosing a strategy, define Recovery Point Objective (how much data loss is acceptable) and Recovery Time Objective (how fast to recover). For core banking, we target RPO ≈ 0 and RTO &lt; 60 seconds.</li>
+<li><span class="highlight">Synchronous vs. Asynchronous Replication</span>:
+<ul>
+<li><strong>Synchronous</strong>: Used for critical transactional data (e.g., Oracle Data Guard Max Availability, Cloud SQL HA). Guarantees zero data loss but introduces latency.</li>
+<li><strong>Asynchronous</strong>: Used for analytics and non-critical data (e.g., Cassandra cross-DC replication, Kafka MirrorMaker). Offers better performance but may have seconds of lag.</li>
+</ul></li>
+<li><span class="highlight">CAP Theorem Trade-offs</span>: Banking systems typically favor <strong>Consistency + Partition Tolerance (CP)</strong> over Availability during network splits. For example, Oracle RAC ensures consistency, while Cassandra allows tunable consistency (LOCAL_QUORUM vs. QUORUM).</li>
+<li><span class="highlight">Conflict Resolution</span>: For active-active setups, implement vector clocks, last-write-wins (LWW), or application-level reconciliation logic to handle split-brain scenarios.</li>
+</ul>
+
+<p><strong>3. Service Switching & Failover Mechanisms:</strong></p>
+<ul>
+<li><span class="highlight">Active-Active vs. Active-Passive</span>:
+<ul>
+<li><strong>Active-Active</strong>: Both sites handle traffic simultaneously. Requires data bi-directional sync and conflict resolution. Best for read-heavy workloads.</li>
+<li><strong>Active-Passive</strong>: Primary site handles traffic; secondary is on standby. Simpler data flow but wastes resources. Common for legacy monolithic systems.</li>
+</ul></li>
+<li><span class="highlight">Health Checks & Auto-Failover</span>: Implement multi-layer health checks (infrastructure, application, business logic). Use tools like <span class="highlight">ITRS/Geneos</span> or cloud-native health checks to trigger automatic failover when thresholds are breached.</li>
+<li><span class="highlight">DNS & Traffic Management</span>: Use GeoDNS or Global Server Load Balancing (GSLB) to route users to the nearest healthy site. Implement TTL adjustments for faster DNS propagation during failover.</li>
+<li><span class="highlight">Graceful Degradation</span>: Design services to degrade functionality rather than fail completely. For example, if the recommendation engine is down, show cached or default content.</li>
+</ul>
+
+<p><strong>4. Application-Level Resilience:</strong></p>
+<ul>
+<li><span class="highlight">Circuit Breakers</span>: Prevent cascading failures by failing fast when downstream services are unhealthy (e.g., using Istio or Resilience4j).</li>
+<li><span class="highlight">Retry & Timeout Policies</span>: Implement exponential backoff with jitter for transient failures. Set aggressive timeouts to avoid resource exhaustion.</li>
+<li><span class="highlight">Bulkheads</span>: Isolate resources (e.g., thread pools, connection pools) so that a failure in one component doesn't exhaust shared resources.</li>
+<li><span class="highlight">Idempotency</span>: Ensure that retried requests don't cause duplicate processing, critical for payment and settlement systems.</li>
+</ul>
+
+<p><strong>5. Testing & Validation:</strong></p>
+<ul>
+<li><span class="highlight">Chaos Engineering</span>: Regularly simulate failures (node crashes, network partitions, AZ outages) using tools like Chaos Monkey or Gremlin to validate resilience.</li>
+<li><span class="highlight">DR Drills</span>: Conduct quarterly disaster recovery exercises involving full site failover, data restoration, and business continuity validation.</li>
+<li><span class="highlight">Game Days</span>: Cross-functional exercises where teams practice incident response under simulated high-pressure scenarios.</li>
+</ul>
+
+<p><strong>6. Observability During Failures:</strong></p>
+<ul>
+<li>Ensure that monitoring and logging remain available during outages. Use <span class="highlight">out-of-band monitoring</span> (separate infrastructure) to avoid blind spots when the primary system fails.</li>
+<li>Implement runbooks and automated remediation scripts accessible from both sites.</li>
+</ul></div>
+            </div>
+        </div>
+
+        <!-- Questions to Ask the Interviewer -->
+        <div class="card">
+            <h2><span class="icon">🙋</span> Questions to Ask the Interviewer</h2>
+            <div class="section-note">
+                💡 <strong>Important:</strong> Asking thoughtful questions shows your genuine interest and strategic thinking. Prepare 3-5 questions.
+            </div>
+            
+            <div class="question-item">
+                <div class="q">1. What does success look like in this role in the first 6-12 months?</div>
+                <div class="answer-area" contenteditable="true">Notes...</div>
+            </div>
+            
+            <div class="question-item">
+                <div class="q">2. What are the biggest infrastructure challenges the team is currently facing?</div>
+                <div class="answer-area" contenteditable="true">Notes...</div>
+            </div>
+            
+            <div class="question-item">
+                <div class="q">3. How is the DevOps team structured across Hong Kong and Mainland China?</div>
+                <div class="answer-area" contenteditable="true">Notes...</div>
+            </div>
+            
+            <div class="question-item">
+                <div class="q">4. What is the current cloud strategy - single cloud or multi-cloud?</div>
+                <div class="answer-area" contenteditable="true">Notes...</div>
+            </div>
+            
+            <div class="question-item">
+                <div class="q">5. How does the bank measure operational excellence and reliability?</div>
+                <div class="answer-area" contenteditable="true">Notes...</div>
+            </div>
+            
+            <div class="question-item">
+                <div class="q">6. What opportunities are there for professional development and leadership growth?</div>
+                <div class="answer-area" contenteditable="true">Notes...</div>
+            </div>
+        </div>
+
+        <!-- Salary & Benefits Discussion -->
+        <div class="card">
+            <h2><span class="icon">💼</span> Salary & Benefits Discussion</h2>
+            <div class="section-note">
+                💡 <strong>Strategy:</strong> Research market rates for Sr.AD Infrastructure/DevOps roles in HK banking. Be prepared to discuss total compensation (base + bonus + benefits).
+            </div>
+            
+            <div class="editable" contenteditable="true">
+                <p><strong>Expected Salary Range:</strong> [Research and fill in based on market data]</p>
+                <p><strong>Key Benefits to Discuss:</strong></p>
+                <ul>
+                    <li>Performance bonus structure</li>
+                    <li>Stock options/RSUs (if applicable)</li>
+                    <li>Relocation support (if moving from mainland)</li>
+                    <li>Professional development budget</li>
+                    <li>Work-from-home policy</li>
+                    <li>Health insurance coverage</li>
+                </ul>
+                <p><strong>Your Negotiation Points:</strong></p>
+                <ul>
+                    <li>14 years of experience with proven track record</li>
+                    <li>Led 35-person team with measurable business impact</li>
+                    <li>$800K+ annual savings delivered</li>
+                    <li>Cross-regional leadership experience</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Action Items -->
+        <div class="card">
+            <h2><span class="icon">✅</span> Pre-Interview Action Items</h2>
+            <div class="editable" contenteditable="true">
+                <p><input type="checkbox"> Research Hang Seng Bank's recent technology initiatives and digital transformation strategy</p>
+                <p><input type="checkbox"> Review the specific technologies mentioned in JD (Kafka, Redis, PostgreSQL, MongoDB, Ansible, Terraform)</p>
+                <p><input type="checkbox"> Prepare specific examples using STAR method for behavioral questions</p>
+                <p><input type="checkbox"> Practice self-introduction with timer (target: 3 minutes)</p>
+                <p><input type="checkbox"> Prepare questions to ask the interviewer</p>
+                <p><input type="checkbox"> Research salary benchmarks for Sr.AD roles in HK banking</p>
+                <p><input type="checkbox"> Review your own resume and be ready to explain any gap or transition</p>
+                <p><input type="checkbox"> Prepare your "Why Hang Seng?" story</p>
+                <p><input type="checkbox"> If applicable, brush up on Cantonese business terms</p>
+            </div>
+        </div>
+
+        <div class="btn-group" style="margin-bottom: 40px;">
+            <button class="btn" onclick="window.print()">🖨️ Print / Save as PDF</button>
+        </div>
+    </div>
+
+    <script>
+        // Set current date
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        // Timer functionality
+        let timerInterval;
+        let totalSeconds = 180; // 3 minutes
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            totalSeconds = 180;
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                totalSeconds--;
+                updateTimerDisplay();
+                if (totalSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    alert('Time is up!');
+                }
+            }, 1000);
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            totalSeconds = 180;
+            updateTimerDisplay();
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            document.getElementById('timer').textContent = 
+                `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        // Auto-save content to localStorage
+        document.querySelectorAll('[contenteditable]').forEach((el, index) => {
+            const saved = localStorage.getItem('interview_prep_' + index);
+            if (saved) el.innerHTML = saved;
+            
+            el.addEventListener('blur', () => {
+                localStorage.setItem('interview_prep_' + index, el.innerHTML);
+            });
+        });
+    </script>
+</body>
+</html>
